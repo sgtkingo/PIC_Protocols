@@ -58,6 +58,7 @@ void LCD_Initialize();
 void LCD_Clear();
 void LCD_Config();
 void LCD_Enable();
+void LCD_Welcome(); 
 void LCDWriteNibble(char data_nibble);
 void LCDWriteByte(char data_byte,char rs);
 void LCDPutCmd(char cmd);

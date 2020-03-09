@@ -33,7 +33,7 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.
 
-void convertNumber(unsigned int number, char* buffer, char buffersize);
+char* convertNumberAsArray(unsigned int number);
 char getNumber(char number);
 char getSize(unsigned int number);
 
@@ -59,6 +59,8 @@ char getNumber(char number){
 
 char getSize(unsigned int number){
     char i=0;
+    if(number == 0)return 1;
+    
     while ( number > 0){
         number/=10;
         i++;
@@ -66,19 +68,24 @@ char getSize(unsigned int number){
     return i;
 }
 
-void convertNumber(unsigned int number, char* buffer, char buffersize){
-    char size=getSize(number);
-    if( buffersize-1 < size) 
-        size=buffersize-1;
+char* convertNumberAsArray(unsigned int number){
+    if(number < 0)number*=-1;
     
-    char i=size-1;
+    char size=(getSize(number)+1);
+    if(size > 16)size=16;
+    static char buffer[16];
     
-    while(number > 0 && i > -1){
+    char i=(size-2);
+    if(number == 0){
+        buffer[i]=getNumber(number);
+    }
+    while(number > 0 && i >= 0){
         buffer[i]=getNumber(number%10);
         number/=10;
         i--;
     }
-    buffer[buffersize-1]='\0';
+    buffer[size-1]='\0';
+    return buffer;
 } 
 #endif	/* LCD_CHARSET */
 

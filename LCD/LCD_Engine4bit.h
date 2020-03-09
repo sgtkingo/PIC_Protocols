@@ -139,5 +139,12 @@ void LCDClearLine(char ln){
     LCDPutStr(LINE);
 }
 
+void LCD_Welcome(){
+    LCD_Clear();
+    LCDPutStr("Greetins :)");
+    delay_ms(2500);
+    LCD_Clear();    
+}
+
 #endif	/* LCD_ENGINE */
 
