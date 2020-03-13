@@ -29,7 +29,7 @@
 #ifndef DS18B20_ONEDEVICE
 #define	DS18B20_ONEDEVICE
 
-#define N 8
+#define N_DS18B20 8
 
 //All CMD must be send in direct communication order: 
 //**** 1: INIT (Reset)
@@ -76,7 +76,7 @@ char temperatureDataLSB,temperatureDataMSB;
 char tempCelsia, tempMiliCelsia ;
 unsigned int temperatureData=0;
     
-unsigned char senzorROMasArray[N]={0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+unsigned char senzorROMasArray[N_DS18B20]={0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 unsigned char familyName, CRC;
 unsigned long long int SN;
 
@@ -141,7 +141,7 @@ void readROM(){
     
     char lastReadByte=0;
     OWWriteByte(ROM_readROM); //Read ROM 
-    for(int i=0;i<N;i++){
+    for(int i=0;i<N_DS18B20;i++){
         lastReadByte=OWReadByte();
         senzorROMasArray[i]=lastReadByte;
     }
@@ -149,10 +149,10 @@ void readROM(){
 }
 
 void parseROMData(){
-    familyName=senzorROMasArray[N-1];
+    familyName=senzorROMasArray[N_DS18B20-1];
     CRC=senzorROMasArray[0];
     
-    for(int i=0;i<N-2;i++){
+    for(int i=0;i<N_DS18B20-2;i++){
         SN|=senzorROMasArray[i];
         SN<<=8;
     }
@@ -211,7 +211,7 @@ char getTempMiliCelsia(){
     return (char)result;
 }
 unsigned int getTemperatureData(){
-    return tempCelsia;
+    return temperatureData;
 }
 bit getTempPolarity(){
     return tempPolarity;

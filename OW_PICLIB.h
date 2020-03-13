@@ -21,7 +21,8 @@
 
 /*
  * Author: Jiri Konecny
- * Comments: OneWire function header for PIC18LF46K22
+ * Comments: Library for PIC OneWire
+ * Revision history: 1.0 / 070320
  */
 
 // This is a guard condition so that contents of this file are not included

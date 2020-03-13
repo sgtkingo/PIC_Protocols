@@ -32,3 +32,7 @@ void main(void) {
     }
     return;
 }
+
+void interrupt IRS(void){
+    return;
+}
