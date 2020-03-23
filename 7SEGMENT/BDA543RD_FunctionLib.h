@@ -31,14 +31,11 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.
 #include "BDA543RD_CharMap.h"
-
-#define DMX_A PORTEbits.RE0
-#define DMX_B PORTEbits.RE1
+#include "PIC16F18323_DEMUXER.h"
 
 #define displayIndexSize 4
 #define segmentsSize 8
 
-const char demuxSelect[]={0b00000000, 0b00000001, 0b00000010, 0b00000011};
 const char selectDot[]={0b11111111, 0b01111111};
 
 char bufferData[]={0xFF, 0xFF, 0xFF, 0xFF};
@@ -73,11 +70,8 @@ void setCharToBufferByIndex(char mychar, unsigned int index);
 void Init_BDA543RD(){
     ANSELD=0;
     TRISD=0;
-        
-    ANSELEbits.ANSE0=0;
-    ANSELEbits.ANSE1=0;
-    TRISEbits.RE0=0;
-    TRISEbits.RE1=0;
+    
+    Init_DEMUXER();
 }
 
 void Test_BDA543RD(){
@@ -85,14 +79,14 @@ void Test_BDA543RD(){
         PORTD=0xFF;
         __delay_ms(1);
         
-        PORTE=demuxSelect[i];
+        Set_DEMUX(i);
         PORTD=0x00;
         __delay_ms(500);
     }
     for(int i=0;i<displayIndexSize;i++){
         PORTD=0xFF;
         __delay_ms(1);
-        PORTE=demuxSelect[i];
+        Set_DEMUX(i);
         
         PORTD=0b01111111;
         for(int j=0;j<segmentsSize;j++){
@@ -106,9 +100,6 @@ void Test_BDA543RD(){
 
 void Clear_BDA543RD(){
     PORTD=0xFF;
-    DMX_A=0;
-    DMX_B=0;
-    
     ClearBuffer();
 }
 
@@ -169,8 +160,7 @@ void showBufferDataToDisplayByIndex(unsigned int index){
      if(index >= displayIndexSize)return;
      
     PORTD=0xFF;
-    PORTE=demuxSelect[index];
-    __delay_us(100);
+    Set_DEMUX(index);
     
     copyDotToBufferByIndex(index);
     PORTD=bufferData[index];  
@@ -181,8 +171,7 @@ void showBufferDataToDisplayAuto(unsigned int time_ms){
     while(--time_ms){
         for(int i=0;i<displayIndexSize;i++){
         PORTD=0xFF;
-        PORTE=demuxSelect[i];
-        __delay_us(100); 
+        Set_DEMUX(i);
 
         PORTD=bufferData[i];
         __delay_ms(1); 
@@ -205,10 +194,14 @@ void parseIntNumberToBufferBy2(int First2, int Second2){
 }
 
 void parseIntNumberToBufferBy4(int Value4){
-    setNumberToBufferByIndex(Value4/1000, 0);
-    setNumberToBufferByIndex(Value4/100, 1);
-    setNumberToBufferByIndex(Value4/10, 2);
-    setNumberToBufferByIndex(Value4%10, 3); 
+    unsigned char n=0;
+    int i=displayIndexSize-1;
+    
+    while(Value4 > 0 && i >= 0){
+        n=(Value4%10);
+        Value4/=10;
+        setNumberToBufferByIndex(n,i--);
+    } 
 }
 
 void setCharToBufferByIndex(char mychar, unsigned int index){

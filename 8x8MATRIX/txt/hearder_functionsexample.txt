@@ -1,0 +1,21 @@
+*********************************************************************************************************
+* MAX7219_SendByte()
+*
+* Description: Send one byte to the MAX7219
+* Arguments  : dataout = data to send
+* Returns    : none
+*********************************************************************************************************
+*/
+static void MAX7219_SendByte (unsigned char dataout)
+{
+  char i;
+  for (i=8; i>0; i--) {
+    unsigned char mask = 1 << (i - 1);                // calculate bitmask
+    CLK_0();                                          // bring CLK low
+    if (dataout & mask)                               // output one data bit
+      DATA_1();                                       //  "1"
+    else                                              //  or
+      DATA_0();                                       //  "0"
+    CLK_1();                                          // bring CLK high
+	}
+}
