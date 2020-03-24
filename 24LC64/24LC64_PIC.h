@@ -31,12 +31,14 @@
 #include "I2C_PICLIB.h"
 
 #define TIME_WRITE 5500
-#define TIME_READ  100
+#define TIME_READ  1000
 
 #define PAGE_SIZE 32
 
 #define H_MAX 0x1F
 #define L_MAX 0xFF
+
+#define WP LATCbits.LC7
 
 #define ADR_24LC64 0b10100000
 // address_of_24LC64_in the BUS I2C, W	
@@ -46,6 +48,7 @@
 
 
 void Init_24LC64();
+void WP_Mode(unsigned char mode);
 void WriteTo_24LC64(char mem_H, char mem_L, char data);
 int ReadFrom_24LC64(char mem_H, char mem_L);
 
@@ -60,8 +63,17 @@ void SequentialRead_24LC64(char mem_H, char mem_L,char *data,char N);
 void CloseStream_24LC64();
 
 void Init_24LC64(){
+    //Set WP pin
+    ANSELCbits.ANSC7=0;
+    TRISCbits.TRISC7=0;
+    WP_Mode(0);
+    
     I2C_SPEED(SPEED_N_100kHz);
     I2C_INIT();
+}
+
+void WP_Mode(unsigned char mode){
+    WP=(mode & 0x01);
 }
 
 void WriteTo_24LC64(char mem_H, char mem_L, char data){
