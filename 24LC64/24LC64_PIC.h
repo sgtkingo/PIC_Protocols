@@ -38,7 +38,7 @@
 #define H_MAX 0x1F
 #define L_MAX 0xFF
 
-#define WP LATCbits.LC7
+#define WP LATCbits.LC6
 
 #define ADR_24LC64 0b10100000
 // address_of_24LC64_in the BUS I2C, W	
@@ -64,8 +64,8 @@ void CloseStream_24LC64();
 
 void Init_24LC64(){
     //Set WP pin
-    ANSELCbits.ANSC7=0;
-    TRISCbits.TRISC7=0;
+    ANSELCbits.ANSC6=0;
+    TRISCbits.TRISC6=0;
     WP_Mode(0);
     
     I2C_SPEED(SPEED_N_100kHz);
