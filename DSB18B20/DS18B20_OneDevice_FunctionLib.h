@@ -103,6 +103,7 @@ bit getTempPolarity();
 void Init_DS18B20(){
     OW_Init();
     Clear_DS18B20();
+    configTemperatureSenzor(res_12b);
 }
 
 void Clear_DS18B20(){
@@ -141,7 +142,7 @@ void readROM(){
     
     char lastReadByte=0;
     OWWriteByte(ROM_readROM); //Read ROM 
-    for(int i=0;i<N_DS18B20;i++){
+    for(int i=(N_DS18B20-1);i >= 0;i--){
         lastReadByte=OWReadByte();
         senzorROMasArray[i]=lastReadByte;
     }
@@ -180,7 +181,6 @@ void readTemperature(){
     
     if(OWTouchReset())return;
     OWWriteByte(ROM_skipROM); 
-    
     OWWriteByte(FCE_readFromSCR); //Read memory
     
     temperatureDataLSB=OWReadByte(); //LSB
@@ -194,7 +194,7 @@ void parseTemeperatureData(char lsb, char msb){
     unsigned int tmp=(msb & 0b00000111);
     tmp<<=8;
     
-    tempPolarity=(msb & 0xF000);
+    tempPolarity=(msb & 0xF0);
     temperatureData=(tmp|lsb);
     
     tempCelsia=(temperatureData >> 4);
