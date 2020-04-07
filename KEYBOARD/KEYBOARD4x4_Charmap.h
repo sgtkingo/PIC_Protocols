@@ -1,3 +1,8 @@
+/*  
+ * Author: Jiri Konecny 
+ * Version: 070420
+ * Comments:Keyboard charmap header
+ */
 
 #ifndef KEYBOARD4x4_CHARMAP_H
 #define	KEYBOARD4x4_CHARMAP_H
@@ -9,7 +14,25 @@
 #define CODE_NOKEY 0xFF
 #define CODE_OVERFLOW 0x11
 
+/*
+*********************************************************************************************************
+* getChar(unsigned char value)
+*
+* Description: Get character by decimal code from charSet map
+* Arguments  : value - decimal code 
+* Returns    : character
+*********************************************************************************************************
+*/
 char getChar(unsigned char value);
+/*
+*********************************************************************************************************
+* getValue(unsigned char key)
+*
+* Description: Get character decimal code
+* Arguments  : key - decimal code of character
+* Returns    : decimal code 
+*********************************************************************************************************
+*/
 unsigned char getValue(unsigned char key);
 
 char charSet[N_KEYBOARD]={

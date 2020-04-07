@@ -1,34 +1,13 @@
-/* Microchip Technology Inc. and its subsidiaries.  You may use this software 
- * and any derivatives exclusively with Microchip products. 
- * 
- * THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS".  NO WARRANTIES, WHETHER 
- * EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY IMPLIED 
- * WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A 
- * PARTICULAR PURPOSE, OR ITS INTERACTION WITH MICROCHIP PRODUCTS, COMBINATION 
- * WITH ANY OTHER PRODUCTS, OR USE IN ANY APPLICATION. 
- *
- * IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE, 
- * INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND 
- * WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP HAS 
- * BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE.  TO THE 
- * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS 
- * IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF 
- * ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *
- * MICROCHIP PROVIDES THIS SOFTWARE CONDITIONALLY UPON YOUR ACCEPTANCE OF THESE 
- * TERMS. 
- */
-
 /*  
  * Author: Jiri Konecny 
- * Comments: Library for 4x4KEYBOARd connected via expander MCP23017
- * Revision history: 1.0 / 070320
+ * Version: 070420
+ * Comments: 4x4 keyboard via MCP26017 function header for PIC
  */
 
 // This is a guard condition so that contents of this file are not included
 // more than once.  
-#ifndef KEYABOARD4x4_VIA_MCP23017_H
-#define	KEYABOARD4x4_VIA_MCP23017_H
+#ifndef PIC_KEYABOARD4x4_VIA_MCP23017_H
+#define	PIC_KEYABOARD4x4_VIA_MCP23017_H
 #include "MCP23017_FunctionLib.h"
 #include "KEYBOARD4x4_Charmap.h"
 
@@ -52,9 +31,45 @@
 
 unsigned char IN_DATA,OUT_DATA,RESULT;
 
+/*
+*********************************************************************************************************
+* Init_Keyboard()
+*
+* Description: Init keyboard and MCP23017
+* Arguments  : none
+* Returns    : none
+*********************************************************************************************************
+*/
 void Init_Keyboard();
+/*
+*********************************************************************************************************
+* Read_Keyboard()
+*
+* Description: Read keyboard
+* Arguments  : none
+* Returns    : readed value
+*********************************************************************************************************
+*/
 unsigned char Read_Keyboard();
+/*
+*********************************************************************************************************
+* Resolve_Keyboard(unsigned char in, unsigned char out)
+*
+* Description: Resolve keyboard input
+* Arguments  : in - keyboard get value, out - keyboard test value
+* Returns    : keyboard code key
+*********************************************************************************************************
+*/
 unsigned char Resolve_Keyboard(unsigned char in, unsigned char out);
+/*
+*********************************************************************************************************
+* Test_Keyboard(unsigned char out)
+*
+* Description: Test keyboard by parametr
+* Arguments  : out - keyboard test value
+* Returns    : none
+*********************************************************************************************************
+*/
 void Test_Keyboard(unsigned char out);
 
 void Init_Keyboard(){
@@ -184,4 +199,4 @@ unsigned char Resolve_Keyboard(unsigned char in, unsigned char out){
    return result;
 }
 
-#endif	/* KEYABOARD4x4_VIA_MCP23017_H */
+#endif	/* PIC_KEYABOARD4x4_VIA_MCP23017_H */

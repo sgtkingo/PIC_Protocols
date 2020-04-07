@@ -1,53 +1,15 @@
-/* Microchip Technology Inc. and its subsidiaries.  You may use this software 
- * and any derivatives exclusively with Microchip products. 
- * 
- * THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS".  NO WARRANTIES, WHETHER 
- * EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY IMPLIED 
- * WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A 
- * PARTICULAR PURPOSE, OR ITS INTERACTION WITH MICROCHIP PRODUCTS, COMBINATION 
- * WITH ANY OTHER PRODUCTS, OR USE IN ANY APPLICATION. 
- *
- * IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE, 
- * INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND 
- * WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP HAS 
- * BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE.  TO THE 
- * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS 
- * IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF 
- * ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *
- * MICROCHIP PROVIDES THIS SOFTWARE CONDITIONALLY UPON YOUR ACCEPTANCE OF THESE 
- * TERMS. 
- */
-
-/* 
+/*  
  * Author: Jiri Konecny 
- * Comments: EEPROM 22LC64 function header for PIC
+ * Version: 070420
+ * Comments: Expander MCP23017 function header for PIC
  */
 
 // This is a guard condition so that contents of this file are not included
 // more than once.  
-#ifndef MCP23017_FUNCTION
-#define	MCP23017_FUNCTION
+#ifndef PIC_MCP23017_FUNCTIONLIB_H
+#define	PIC_MCP23017_FUNCTIONLIB_H
 
 #include "MCP23017_Config.h"
-
-void Init_MCP23017();
-void Config_MCP23017_Fast();
-
-void Send_ConfigToRegister(unsigned char reg, unsigned char cmd);
-void ChangeIOCONMode(unsigned char mode);
-void GoToAddress(unsigned char addr);
-
-unsigned char Read_DataFromPort(unsigned char port);
-void Send_DataToPort(unsigned char port, unsigned char data);
-void Set_DirectionOfPort(unsigned char port, unsigned char dir);
-
-void Set_IOC(unsigned char port, unsigned char pins, unsigned char mode, unsigned char defval);
-unsigned char Get_IOC_Flag(unsigned char port);
-unsigned char Get_IOC_Cap(unsigned char port);
-
-void Set_PullUp(unsigned char port, unsigned char pins);
-void Set_PortPol(unsigned char port, unsigned char pins);
 
 void Config_MCP23017_Fast(){
     I2C_PAUSE(1000);
@@ -133,7 +95,7 @@ char Read_NoSeqConfigFromRegister(unsigned char reg){
 char* Read_SeqConfigFromRegister(){
     ChangeIOCONMode(IOCON_SEQ_16bit); //Enable Sequential mode, BANK=0, Slew Rate=1
     
-    char data[MCP2017_MEM_SIZE];
+    static char data[MCP2017_MEM_SIZE];
     
     GoToAddress(0x00);
     
@@ -187,5 +149,5 @@ void Set_PortPol(unsigned char port, unsigned char pins){
     Send_ConfigToRegister(IPOL | port,pins);
 }
 
-#endif	/* MCP23017_FUNCTION */
+#endif	/* PIC_MCP23017_FUNCTIONLIB_H */
 

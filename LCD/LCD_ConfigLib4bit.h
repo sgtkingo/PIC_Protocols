@@ -1,4 +1,8 @@
-
+/*  
+ * Author: Jiri Konecny 
+ * Version: 070420
+ * Comments: LCD config header
+ */
 // This is a guard condition so that contents of this file are not included
 // more than once.
 #ifndef LCD_CONFIGLIB
@@ -53,19 +57,126 @@
 #define NB_COL      16                                  // Number of characters per line
 
 
-void LCD_Config();
 void LCD_Initialize();
+/*
+*********************************************************************************************************
+* LCD_Clear()
+*
+* Description: Clear LCD, goto 0,0 
+* Arguments  : none
+* Returns    : none
+*********************************************************************************************************
+*/
 void LCD_Clear();
+/*
+*********************************************************************************************************
+* LCD_Config()
+*
+* Description: Config LCD
+* Arguments  : none
+* Returns    : none
+*********************************************************************************************************
+*/
 void LCD_Config();
+/*
+*********************************************************************************************************
+* LCD_Enable()
+*
+* Description: LCD enable routine
+* Arguments  : none
+* Returns    : none
+*********************************************************************************************************
+*/
 void LCD_Enable();
+/*
+*********************************************************************************************************
+* LCD_Welcome()
+*
+* Description: LCD Welcome routine
+* Arguments  : none
+* Returns    : none
+*********************************************************************************************************
+*/
 void LCD_Welcome(); 
+/*
+*********************************************************************************************************
+* LCDWriteNibble(char data_nibble)
+*
+* Description: Write nibble to LCD
+* Arguments  : data_nibble - nibble to write
+* Returns    : none
+*********************************************************************************************************
+*/
 void LCDWriteNibble(char data_nibble);
+/*
+*********************************************************************************************************
+* LCDWriteByte(char data_byte,char rs)
+*
+* Description: Write byte to LCD, specific mode
+* Arguments  : data_byte - byte to write, rs - RS signal set
+* Returns    : none
+*********************************************************************************************************
+*/
 void LCDWriteByte(char data_byte,char rs);
+/*
+*********************************************************************************************************
+* LCDPutCmd(char cmd)
+*
+* Description: Send command to LCD
+* Arguments  : cmd - LCD command
+* Returns    : none
+*********************************************************************************************************
+*/
 void LCDPutCmd(char cmd);
+/*
+*********************************************************************************************************
+* LCDPutChar(char ch)
+*
+* Description: Send character to LCD
+* Arguments  : ch - ASCII character
+* Returns    : none
+*********************************************************************************************************
+*/
 void LCDPutChar(char ch);
+/*
+*********************************************************************************************************
+* LCD_pause(unsigned int t)
+*
+* Description: Wait routine in ms
+* Arguments  : t - time in ms
+* Returns    : none
+*********************************************************************************************************
+*/
 void LCD_pause(unsigned int t);
+/*
+*********************************************************************************************************
+* LCDGoto(char pos,char ln)
+*
+* Description: GoTo command for LCD
+* Arguments  : pos - position in line(from 0), ln - line number (from 0)
+* Returns    : none
+*********************************************************************************************************
+*/
 void LCDGoto(char pos,char ln);
+/*
+*********************************************************************************************************
+* LCDPutStr(const char *str)
+*
+* Description: Put string to LCD
+* Arguments  : str - string pointer
+* Returns    : none
+*********************************************************************************************************
+*/
 void LCDPutStr(const char *str);
+/*
+*********************************************************************************************************
+* LCDClearLine(char ln)
+*
+* Description: Clear specific LCD line
+* Arguments  : ln - line number (from 0)
+* Returns    : none
+*********************************************************************************************************
+*/
 void LCDClearLine(char ln);
 
 #endif	/* LCD_CONFIGLIB */

@@ -1,5 +1,13 @@
-#ifndef LCD_ENGINE
-#define	LCD_ENGINE
+/*  
+ * Author: Jiri Konecny 
+ * Version: 070420
+ * Comments: LCD function header for PIC
+ */
+
+// This is a guard condition so that contents of this file are not included
+// more than once. 
+#ifndef PIC_LCD_ENGINE_FUNCTIONLIB_H
+#define	PIC_LCD_ENGINE_FUNCTIONLIB_H
 
 #include "LCD_ConfigLib4bit.h"
 #include "LCD_Charset.h"
@@ -146,5 +154,5 @@ void LCD_Welcome(){
     LCD_Clear();    
 }
 
-#endif	/* LCD_ENGINE */
+#endif	/* PIC_LCD_ENGINE_FUNCTIONLIB_H */
 

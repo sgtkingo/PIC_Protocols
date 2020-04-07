@@ -1,34 +1,13 @@
-/* Microchip Technology Inc. and its subsidiaries.  You may use this software
- * and any derivatives exclusively with Microchip products.
- *
- * THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS".  NO WARRANTIES, WHETHER
- * EXPRESS, IMPLIED OR STATUTORY, APPLY TO THIS SOFTWARE, INCLUDING ANY IMPLIED
- * WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A
- * PARTICULAR PURPOSE, OR ITS INTERACTION WITH MICROCHIP PRODUCTS, COMBINATION
- * WITH ANY OTHER PRODUCTS, OR USE IN ANY APPLICATION.
- *
- * IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE,
- * INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND
- * WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP HAS
- * BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE.  TO THE
- * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS
- * IN ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF
- * ANY, THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *
- * MICROCHIP PROVIDES THIS SOFTWARE CONDITIONALLY UPON YOUR ACCEPTANCE OF THESE
- * TERMS.
- */
-
-/*
- * Author: Jiri Konecny
- * Comments: Library for PIC OneWire
- * Revision history: 1.0 / 070320
+/*  
+ * Author: Jiri Konecny 
+ * Version: 060420
+ * Comments: 1-Wire function header for PIC
  */
 
 // This is a guard condition so that contents of this file are not included
 // more than once.
-#ifndef OW_SINGLE_DEVICE_H
-#define	OW_SINGLE_DEVICE_H
+#ifndef PIC_OW_BUS_H
+#define	PIC_OW_BUS_H
 
 #include <xc.h> // include processor files - each processor file is guarded.
 
@@ -40,21 +19,110 @@
 static unsigned int A,B,C,D,E,F,G,H,I,J;
 
 ///Declarations of functions
+/*
+*********************************************************************************************************
+* tickDelay(int tick)
+*
+* Description: Simple delay us funciton
+* Arguments  : tick - amount of tick in us
+* Returns    : none
+*********************************************************************************************************
+*/
 void tickDelay(int tick);
+/*
+*********************************************************************************************************
+* OW_Init()
+*
+* Description: Init 1-Wire bus
+* Arguments  : none
+* Returns    : none
+*********************************************************************************************************
+*/
 void OW_Init();
 
+/*
+*********************************************************************************************************
+* OW_SetSpeed()
+*
+* Description: Set tick values for 1-wire bus
+* Arguments  : none
+* Returns    : none
+*********************************************************************************************************
+*/
 void OW_SetSpeed();
 
-int OWTouchReset(void);
-void OWWriteBit(int myBit);
-int OWReadBit(void);
+/*
+*********************************************************************************************************
+* OWTouchReset()
+*
+* Description: Reset 1-Wire devices on bus
+* Arguments  : none
+* Returns    : return log. value 1/0
+*********************************************************************************************************
+*/
+char OWTouchReset(void);
+/*
+*********************************************************************************************************
+* OWWriteBit(char myBit)
+*
+* Description: Send 1 bit to 1-Wire bus
+* Arguments  : myBit - logic value 1/0
+* Returns    : none
+*********************************************************************************************************
+*/
+void OWWriteBit(char myBit);
+/*
+*********************************************************************************************************
+* OWReadBit()
+*
+* Description: Read 1 bit on 1-Wire bus
+* Arguments  : none
+* Returns    : readed bit
+*********************************************************************************************************
+*/
+char OWReadBit(void);
 
-void OWWriteByte(int data);
-int OWReadByte(void);
-int OWTouchByte(int data);
+/*
+*********************************************************************************************************
+* OWWriteByte(char data)
+*
+* Description: Write 1 byte on 1-Wire bus
+* Arguments  : data - 1 byte to write
+* Returns    : none
+*********************************************************************************************************
+*/
+void OWWriteByte(char data);
+/*
+*********************************************************************************************************
+* OWReadByte()
+*
+* Description: Read 1 byte on 1-Wire bus
+* Arguments  : none
+* Returns    : readed byte
+*********************************************************************************************************
+*/
+char OWReadByte(void);
+/*
+*********************************************************************************************************
+* OWTouchByte(char data)
+*
+* Description: Touch 1 byte on 1-Wire bus
+* Arguments  : data - byte to touch
+* Returns    : ack value
+*********************************************************************************************************
+*/
+char OWTouchByte(char data);
 
+/*
+*********************************************************************************************************
+* OWBlock(unsigned char *data, int data_len)
+*
+* Description: send array of bytes to bus
+* Arguments  : data - bytes data array, data_len - size of "data"
+* Returns    : none
+*********************************************************************************************************
+*/
 void OWBlock(unsigned char *data, int data_len);
-//int OWOverdriveSkip(unsigned char *data, int data_len);
 
 ///Definitions of functions
 
@@ -92,9 +160,9 @@ void OW_SetSpeed()
 // return 0 otherwise.
 // (NOTE: Does not handle alarm presence from DS2404/DS1994)
 //
-int OWTouchReset(void)
+char OWTouchReset(void)
 {
-        int result;
+        char result;
 
         tickDelay(G);
         P_W=0x00; // Drives DQ low
@@ -109,7 +177,7 @@ int OWTouchReset(void)
 //-----------------------------------------------------------------------------
 // Send a 1-Wire write bit. Provide 10us recovery time.
 //
-void OWWriteBit(int myBit)
+void OWWriteBit(char myBit)
 {
         if (myBit)
         {
@@ -132,7 +200,7 @@ void OWWriteBit(int myBit)
 //-----------------------------------------------------------------------------
 // Read a bit from the 1-Wire bus and return it. Provide 10us recovery time.
 //
-int OWReadBit(void)
+char OWReadBit(void)
 {
         int result;
 
@@ -149,9 +217,9 @@ int OWReadBit(void)
 //-----------------------------------------------------------------------------
 // Write 1-Wire data byte
 //
-void OWWriteByte(int data)
+void OWWriteByte(char data)
 {
-        int loop;
+        char loop;
 
         // Loop to write each bit in the byte, LS-bit first
         for (loop = 0; loop < 8; loop++)
@@ -166,9 +234,9 @@ void OWWriteByte(int data)
 //-----------------------------------------------------------------------------
 // Read 1-Wire data byte and return it
 //
-int OWReadByte(void)
+char OWReadByte(void)
 {
-        int loop, result=0;
+        char loop, result=0;
 
         for (loop = 0; loop < 8; loop++)
         {
@@ -185,9 +253,9 @@ int OWReadByte(void)
 //-----------------------------------------------------------------------------
 // Write a 1-Wire data byte and return the sampled result.
 //
-int OWTouchByte(int data)
+char OWTouchByte(char data)
 {
-        int loop, result=0;
+        char loop, result=0;
 
         for (loop = 0; loop < 8; loop++)
         {
@@ -215,7 +283,7 @@ int OWTouchByte(int data)
 //
 void OWBlock(unsigned char *data, int data_len)
 {
-        int loop;
+        char loop;
 
         for (loop = 0; loop < data_len; loop++)
         {
@@ -226,5 +294,5 @@ void OWBlock(unsigned char *data, int data_len)
 //-----------------------------------------------------------------------------
 
 
-#endif	/* OW_SINGLE_DEVICE_H */
+#endif	/* PIC_OW_BUS_H */
 
