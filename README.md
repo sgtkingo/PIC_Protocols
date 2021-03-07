@@ -1,5 +1,5 @@
 # PIC_Protocols
-Universal protocols for PIC microcontrolers. 
+Universal protocols for PIC microcontrollers. 
 
 ## Protocols:
 • EEPROM 24LC64
