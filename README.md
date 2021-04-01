@@ -12,3 +12,4 @@
 • MCP4726 12bit DAC convertor  
 • Buses: I2C, SPI, OneWire
 ```
+*(i)Implemented on PIC18LF46K22*
