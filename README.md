@@ -2,7 +2,7 @@
 >Universal protocols in C lang for PIC microcontrollers. 
 
 ## Protocols:
-'''
+```
 • EEPROM 24LC64
 • 4x 7 SEGMENT DISPLAY
 • 8x8 MATRIX DISPLAY & MAX7219 
@@ -11,4 +11,4 @@
 • MCP4100 Digital Potentiometer
 • MCP4726 12bit DAC convertor  
 • Buses: I2C, SPI, OneWire
-'''
+```
