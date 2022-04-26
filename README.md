@@ -1,7 +1,7 @@
 # PIC Protocols
->Universal protocols in C lang for PIC microcontrollers. 
+>Universal protocols in C language for PIC microcontrollers. 
 
-## Protocols:
+## Supported Protocols:
 ```
 • EEPROM 24LC64
 • 4x 7 SEGMENT DISPLAY
@@ -12,4 +12,4 @@
 • MCP4726 12bit DAC convertor  
 • Buses: I2C, SPI, OneWire
 ```
-*(i)Implemented on PIC18LF46K22*
+(i) *Implemented on PIC18LF46K22*
